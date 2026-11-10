@@ -1,6 +1,19 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "research-paper-mentor",
-  "version": "1.2.0",
-  "description": "Beginner-first Chinese academic-paper deep reading with value assessment, mastery targets, adaptive explanations and optional source-code analysis."
+  "version": "1.3.0",
+  "description": "Beginner-first Chinese academic-paper deep reading with value assessment, mastery goals, adaptive explanations, evidence grounding, and optional source-code analysis.",
+  "author": {
+    "name": "smallrespon",
+    "url": "https://github.com/smallrespon"
+  },
+  "repository": "https://github.com/smallrespon/value-adaptive-paper-reading",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "academic-papers",
+    "reading",
+    "education",
+    "agent-skill"
+  ]
 }

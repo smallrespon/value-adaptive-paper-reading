@@ -4,6 +4,21 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+.mypy_cache/
+.coverage
+
+# Generated release files / reports
+/dist/
+/reports/
+/output/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
 
 # Editors / OS
 .DS_Store
@@ -11,6 +26,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local scratch files
+# Scratch files
 *.tmp
 *.bak

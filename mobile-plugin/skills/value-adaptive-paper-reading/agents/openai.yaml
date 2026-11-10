@@ -1,4 +1,0 @@
-interface:
-  display_name: "论文精读导师"
-  short_description: "按论文价值、掌握目标和证据链生成零基础中文精读报告，并在适用时分析官方源码"
-  default_prompt: "Use $value-adaptive-paper-reading to assess this paper and create a beginner-first Chinese deep-reading report."
