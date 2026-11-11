@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Skill package's metadata, local reference paths, and syntax.
-
-Does not assess factual correctness, output quality, or runtime compatibility.
-"""
+"""Validate the Skill package's metadata, local reference paths, and syntax."""
 from __future__ import annotations
 
 import argparse
@@ -17,6 +14,7 @@ REQUIRED_REFS = (
     "references/mastery-rubric.md",
     "references/adaptive-depth.md",
     "references/beginner-teaching.md",
+    "references/concept-clarity-protocol.md",
     "references/evidence-protocol.md",
     "references/report-blueprint.md",
     "references/paper-types.md",
