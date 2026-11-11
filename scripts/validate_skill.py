@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Skill package's metadata, local reference paths, and syntax."""
+"""Validate Skill metadata, required references, and helper script syntax."""
 from __future__ import annotations
 
 import argparse
@@ -14,6 +14,7 @@ REQUIRED_REFS = (
     "references/mastery-rubric.md",
     "references/adaptive-depth.md",
     "references/beginner-teaching.md",
+    "references/purpose-first-teaching.md",
     "references/concept-clarity-protocol.md",
     "references/evidence-protocol.md",
     "references/report-blueprint.md",
@@ -29,10 +30,10 @@ EXPECTED_PLUGIN = "research-paper-mentor"
 
 def validate(root: Path) -> list[str]:
     errors: list[str] = []
-    p = root / "SKILL.md"
-    if not p.is_file():
+    skill_path = root / "SKILL.md"
+    if not skill_path.is_file():
         return ["Missing SKILL.md"]
-    content = p.read_text(encoding="utf-8")
+    content = skill_path.read_text(encoding="utf-8")
     if not content.startswith("---\n"):
         errors.append("SKILL.md is missing YAML frontmatter")
     else:
@@ -42,10 +43,10 @@ def validate(root: Path) -> list[str]:
         else:
             frontmatter = parts[1]
             name_match = re.search(r"^name:\s*(.+)$", frontmatter, re.M)
-            descr_match = re.search(r"^description:\s*(.+)$", frontmatter, re.M)
+            desc_match = re.search(r"^description:\s*(.+)$", frontmatter, re.M)
             if not name_match or name_match.group(1).strip() != EXPECTED_SKILL:
                 errors.append("Unexpected Skill name")
-            if not descr_match or not descr_match.group(1).strip():
+            if not desc_match or not desc_match.group(1).strip():
                 errors.append("Empty Skill description")
     for ref in REQUIRED_REFS:
         if not (root / ref).is_file():
@@ -55,9 +56,9 @@ def validate(root: Path) -> list[str]:
     agent = root / "agents" / "openai.yaml"
     if not agent.is_file() or "display_name:" not in agent.read_text(encoding="utf-8"):
         errors.append("Missing / invalid agents/openai.yaml")
-    plugin_path = root / "mobile-plugin" / "plugin.json"
+    manifest_path = root / "mobile-plugin" / "plugin.json"
     try:
-        manifest = json.loads(plugin_path.read_text(encoding="utf-8"))
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         for key in ("$schema", "name", "version", "description"):
             if not manifest.get(key):
                 errors.append(f"Plugin manifest missing {key}")
@@ -84,8 +85,8 @@ def main() -> int:
         for error in errors:
             print("ERROR:", error, file=sys.stderr)
         return 1
-    print("PASS: Skill structure, refs, manifest and helper script syntax")
-    print("NOTE: This is not a factual paper-reading or plugin install test")
+    print("PASS: Skill structure, references, manifest, and helper syntax")
+    print("NOTE: Structural validation does not prove factual correctness or runtime compatibility")
     return 0
 
 
