@@ -2,9 +2,30 @@
 
 ## Purpose
 
-Prevent explanations from sounding detailed while leaving the reader unsure what each technical noun refers to, who performs each operation, or how one step changes the system. This protocol is mandatory for every central method taught at D2 or D3 depth, and whenever the user says an explanation is vague, ambiguous, or hard to follow.
+Prevent explanations from sounding detailed while leaving the reader unsure what each technical noun refers to, why a component exists, who performs each operation, or how one step changes the system. This protocol is mandatory for every central method taught at D2/D3 depth, and whenever the user says an explanation is vague, ambiguous, or hard to follow.
 
 The paper's own definitions always take priority. This protocol is a teaching discipline, not permission to impose a generic architecture on the paper.
+
+## 0. Explain the need before the name
+
+For each central component, do not open with its technical label or a dictionary definition. First establish:
+
+- What is the whole system trying to accomplish?
+- What stage of that process are we currently at?
+- What has already happened?
+- What new problem or bottleneck appears now?
+- What would the system need to do if this component did not exist?
+- What capability is needed to move forward?
+
+Then explain in plain language what the component helps the system accomplish. Only after the need is clear, introduce the paper's exact technical name and definition.
+
+A good causal explanation follows:
+
+**overall goal → current stage → concrete difficulty → limitation/cost of the old process → required capability → component's plain-language job → technical name → actual mechanism → downstream effect.**
+
+Do not settle for “it improves efficiency” or “it reuses history”. Say exactly what work is avoided, what information is reused, what still has to run, and what the next stage can do with the result.
+
+Counterfactuals about what would happen without a component must be grounded in the paper's stated motivation or ablation. Otherwise label them as inference.
 
 ## 1. Build an entity inventory before explaining the method
 
@@ -68,125 +89,78 @@ Do not assume every paper contains all five objects. State only the distinctions
 
 For each core component, answer these questions explicitly:
 
-1. **What is it?** Give a one-sentence definition.
-2. **What kind of thing is it?** Actor, program, action, artifact, state, environment, or metric?
-3. **What is its input?** Name the concrete data or state it receives.
-4. **What does it do?** Describe the operation, not just its purpose.
-5. **What is its output?** Name the returned value, generated artifact, score, or state change.
-6. **Who calls or consumes it?** Identify the upstream and downstream components.
-7. **When does it run?** Initialization, each decision round, after execution, offline update, evaluation, etc.
-8. **What is it not?** Contrast it with the nearest easily confused concept.
+1. What is it?
+2. What kind of thing is it?
+3. What is its input?
+4. What does it do?
+5. What is its output?
+6. Who calls or consumes it?
+7. When does it run?
+8. What is it not?
 
-Avoid explanations such as “the policy controls exploration” unless the next sentence says exactly what information it reads, what decision it returns, and what component executes that decision.
+These operational details come after the purpose and motivation, not instead of them.
 
 ## 5. Trace one concrete example without skipping steps
 
-For every D3 method, use one small running example throughout the explanation. Do not switch examples halfway through unless the change is explicitly signposted.
-
-Show the process as a time-ordered trace:
+For every D3 method, use one small running example throughout the explanation. Show the process as a time-ordered trace:
 
 | Step | State before | Component that acts | Input | Exact operation | Output | State after |
 |---|---|---|---|---|---|---|
 
-At minimum, identify:
-
-- who makes the decision;
-- who executes the selected operation;
-- whether one decision produces one or several executions;
-- what new data/artifact is created;
-- how the system state changes;
-- what information becomes visible to the next decision;
-- what condition ends the process.
-
-For parallel systems, distinguish a decision batch, individual tasks, workers, and completed attempts. A batch of three tasks is not automatically one attempt.
-
-For iterative systems, distinguish a single step/round from the complete run/episode. Explain the termination condition.
-
-For tree or graph methods, show the parent, child, edge, root, leaf/frontier, and legal-choice set only where the paper defines them. Explain whether the structure represents all historical data or only the currently visible/active portion.
+Identify who makes decisions, who executes operations, how many executions one decision produces, what data is created, what state changes, what the next step sees, and what terminates the process.
 
 ## 6. Explain live execution and replay/simulation separately
 
 If a paper has real execution and replay/simulation modes, create two separate traces using the same starting state and selected action.
 
-For each mode, state explicitly:
-
-- whether a model/agent is called;
-- whether a new candidate is generated;
-- whether an evaluator or external tool is called;
-- whether an old result is loaded, revealed, predicted, or recomputed;
-- what is appended to or changed in the current state;
-- whether the full historical data is visible at once or revealed incrementally.
+State whether a model/agent is called, whether a new candidate is generated, whether an evaluator/tool is called, whether an old result is loaded/revealed/predicted/recomputed, what state changes, and when information becomes visible.
 
 Never say “the simulator just replays the result” without specifying what is replayed and what computation is skipped. Do not assume replay is deterministic, complete, or capable of evaluating unseen branches unless the paper says so.
 
+Teach the motivation first: an earlier process may already have produced useful records; later steps may need to reuse them rather than needlessly repeat all earlier work. Then verify exactly what this paper's replay operation reuses. Some methods replay actions but still execute them; others load outcomes, reveal records incrementally, or recompute scores. Do not conflate these.
+
 ## 7. Introduce formulas only after their objects are clear
 
-Before presenting a central equation, define every symbol in a notation table:
+Before a central equation, define each symbol's mathematical type, concrete paper referent, domain/dimension/unit, and role. Explain the question, inputs, operation, output, and downstream use. Distinguish solution scores, policy scores, training objectives, evaluation metrics, local quantities, and aggregates.
 
-| Symbol | Mathematical type | Concrete object in the paper | Domain / dimension / unit | Role in the equation |
-|---|---|---|---|---|
-
-Then explain:
-
-1. what question the equation answers;
-2. what its inputs are;
-3. what operation is performed;
-4. what output it produces;
-5. how that output is used by the algorithm or argument.
-
-Distinguish a score for a candidate solution from a score for a policy, a training objective from an evaluation metric, and a local quantity from an average over tasks or histories. Do not use the same informal label for different quantities.
-
-For a worked numerical example, label all invented numbers as “教学示例，非论文实验数据”. Keep the paper's actual formula unchanged; do not silently simplify or replace it with a more familiar formula.
+Label invented values “教学示例，非论文实验数据”. Keep the paper's actual formula unchanged.
 
 ## 8. Separate source facts, explanation, examples, and inference
 
-Use clear labels where confusion is possible:
-
+Use clear labels:
 - **论文明确说明：** directly supported by the paper.
-- **换句话说：** a faithful plain-language restatement.
-- **教学示例：** invented example used only to explain the mechanism.
-- **进一步推断：** analysis that follows from the paper but is not stated as an author claim.
+- **换句话说：** faithful plain-language restatement.
+- **教学示例：** invented example only.
+- **进一步推断：** analysis not stated by the authors.
 - **论文未说明 / 当前无法确认：** missing or inaccessible information.
 
 Do not turn a teaching decomposition into an asserted architecture. Do not invent agent counts, execution order, concurrency semantics, stored fields, visibility rules, or guarantees.
 
 ## 9. Use a consistent explanation order
 
-For a central method, prefer this sequence:
+1. Overall task and end-to-end process.
+2. Problem that appears at the relevant stage.
+3. Why the component is needed.
+4. Plain-language statement of its job.
+5. Exact technical name and definition.
+6. Role/object ledger.
+7. Inputs, operations, outputs, callers, and timing.
+8. One complete concrete execution trace.
+9. Formal definitions and equations.
+10. Figures, source-code mapping, guarantees, and limitations.
 
-1. One-sentence goal.
-2. System map: actors, programs, data structures, environment, metrics.
-3. Terminology/role ledger.
-4. Inputs and outputs of each central component.
-5. One complete concrete execution trace.
-6. The paper's actual algorithm and formal definitions.
-7. Important equations and hand calculation.
-8. Mapping to figures and source code, if available.
-9. What the method guarantees and what it does not guarantee.
+Do not begin with an equation or unexplained list of component names.
 
-Do not begin with an equation or a list of unexplained component names.
+## 10. Repair unclear explanations
 
-## 10. Repair unclear explanations when the reader gives feedback
+If the user says the explanation is unclear:
+- Stop advancing.
+- Identify which terms, roles, time scales, or causal links were conflated or skipped.
+- Re-establish the whole task and the point where the problem arises.
+- Explain why the component is needed before defining it again.
+- Rebuild the role/object ledger.
+- Use one concrete step-by-step trace.
+- Explicitly contrast confusing concepts.
+- Do not claim understanding until the reader can explain or apply the distinction.
 
-If the user says the explanation is unclear, too vague, or mixes concepts:
-
-- Treat that as a teaching-quality failure, not as a request for a shorter paraphrase.
-- Stop advancing to new material.
-- Identify which nouns, roles, time scales, or data-flow transitions were conflated.
-- Rebuild the explanation from the terminology/role ledger.
-- Use one concrete running example and a step-by-step state trace.
-- Explicitly contrast the confusing pairs.
-- Do not claim the reader understands until they can explain or apply the distinction.
-
-Before finalizing any D2/D3 explanation, audit it with these questions:
-
-- Is every central noun a clearly identified object?
-- Is every action assigned to a specific actor/component?
-- Are inputs and outputs named?
-- Are one-time events distinguished from reusable programs and repeated processes?
-- Are artifacts distinguished from paths through those artifacts?
-- Are current/visible state and complete historical data distinguished?
-- Are paper facts separated from teaching examples and inference?
-- Could a beginner answer “who does what, to which input, producing what output, at what time” for every major step?
-
-If any answer is no, revise before delivering.
+Before finalizing, check that a beginner can explain both why the component exists and how it works.
