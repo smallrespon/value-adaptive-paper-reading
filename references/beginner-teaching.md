@@ -4,28 +4,45 @@
 
 Assume the reader knows none of the paper's specialized vocabulary or methods. This does not mean the reader lacks general reasoning ability. Explain the field-specific foundations without being patronizing.
 
+## Purpose before terminology: mandatory for central concepts
+
+Do not start by saying "X is a replay mechanism / scheduler / critic / memory module". First explain why a system needs such a thing.
+
+Use this causal sequence:
+
+1. **Whole task:** What is the paper/system ultimately trying to do?
+2. **Where we are:** What has already happened in the process?
+3. **Problem:** What difficulty appears at this exact point?
+4. **Without this component:** What would the system otherwise have to repeat, lack, or be unable to do? Ground this in the paper; label unsupported counterfactuals as inference.
+5. **Need:** What capability is now required?
+6. **Plain-language job:** Explain what this part helps the system accomplish, without jargon.
+7. **Technical name:** Introduce the paper's exact term and definition only now.
+8. **Mechanism:** Explain its type, inputs, operation, outputs, timing, and caller/consumer.
+9. **Connection:** Explain what happened before it and what becomes possible after it.
+10. **Example and check:** Walk through one concrete example and check that the learner can explain both why it exists and how it works.
+
+Do not skip steps 1–6 for central D2/D3 concepts. Do not apply the full sequence mechanically to minor details.
+
+A definition answers "what is it?" but does not answer "why does this paper need it?". Both are required.
+
 ## Teaching sequence
 
 For every central idea, use this sequence where relevant:
 
-1. **Situation:** What real or theoretical situation are researchers dealing with?
-2. **Problem:** What exactly is difficult, missing, expensive, inaccurate, or unknown?
-3. **Prior approach:** How was it handled before?
-4. **Limitation:** Why is that approach insufficient for this paper's goal?
-5. **Need:** What capability or principle is needed?
-6. **Intuition:** Explain the new idea in ordinary language.
-7. **Concept inventory:** Name the objects, actors, programs, actions, states, data artifacts, environments, and metrics involved. Do not mix these categories.
-8. **Example:** Use one small concrete example, diagram, or toy calculation and keep using it throughout the explanation.
-9. **Operational trace:** Show the exact sequence: state before → component acting → input → operation → output → state after.
-10. **Formalization:** Introduce the technical definition, notation, equation, or proof only after the objects are clear.
-11. **Paper connection:** Show exactly where and how the paper uses it.
-12. **Check:** State what the reader should now be able to explain or calculate.
-
-Not every minor concept needs all twelve steps. Use the full sequence for D3 concepts.
+1. Situation and whole-task context.
+2. Problem and limitation of the existing process.
+3. Need for a new capability.
+4. Intuition and plain-language purpose.
+5. Concept inventory: objects, actors, programs, actions, states, artifacts, environments, metrics.
+6. One consistent example.
+7. Operational trace: state before → component acting → input → operation → output → state after.
+8. Formalization and equations only after objects are clear.
+9. Paper connection and source evidence.
+10. Comprehension check.
 
 ## Vocabulary rules
 
-- Define a technical term the first time it appears.
+- Define a technical term the first time it appears, but do not mistake a dictionary definition for a full explanation.
 - Give the original-language term in parentheses on first mention when useful.
 - Explain acronyms before using them repeatedly.
 - Distinguish everyday meanings from technical meanings.
@@ -80,11 +97,12 @@ If the user says “没看懂”, “太含糊”, “不够具体”, or identi
 
 1. Stop adding new concepts.
 2. Identify the exact terms or transitions that were ambiguous.
-3. Re-state the exact paper-specific definitions.
-4. Rebuild the role/object table.
-5. Walk through one concrete example one step at a time.
-6. Explicitly compare the confusing concepts.
-7. Only resume the paper after the conceptual gap is repaired.
+3. Re-state the overall task and where the learner lost the causal thread.
+4. Explain the concrete problem and why the component is needed before redefining it.
+5. Rebuild the role/object table.
+6. Walk through one concrete example one step at a time.
+7. Explicitly compare the confusing concepts.
+8. Only resume the paper after the conceptual gap is repaired.
 
 Do not respond with a shorter summary or simply repeat the same explanation.
 
