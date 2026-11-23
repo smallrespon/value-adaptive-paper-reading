@@ -30,13 +30,11 @@ $value-adaptive-paper-reading
 Read this paper in full if accessible. Assess its value for a research beginner, set mastery goals, and produce a detailed Chinese teaching report with traceable evidence.
 ```
 
-GitHub access is needed until the repository is made public.
-
 ## Build the portable ChatGPT plugin ZIP
 
 ```bash
 python scripts/build_plugin.py
-# dist/research-paper-mentor-v1.3.0.zip
+# dist/research-paper-mentor-v1.5.0.zip
 ```
 
 A portable skill-only plugin package does **not** automatically install itself into ChatGPT or enable web, shell, Git, PDF tools, or mobile capabilities. Installation and runtime tools depend on the hosting product, plan, and workspace. See [mobile plugin packaging](./mobile-plugin/README.md).
